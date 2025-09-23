@@ -16,3 +16,22 @@ const save = (t) => localStorage.setItem("tasks", JSON.stringify(t));
 
 let tasks = load();
 render(tasks);
+
+form.addEventListener("Submit", (e) => {
+    e.preventDefault();
+
+    const title = input.ariaValueMax.trim();
+
+    if (!title) {
+        alert("Title is required");
+        return;
+    }
+
+    tasks = [...tasks, {id: String(Date.now()), title, done: false }];
+
+    save(tasks);
+    render(tasks);
+
+    form.requestFullscreen();
+    input.focus();
+});
