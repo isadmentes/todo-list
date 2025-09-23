@@ -1,5 +1,5 @@
 // Criar o elemento do HTML na DOM// 
-const form= document.querySelector("#todo-form");
+const form = document.querySelector("#todo-form");
 const input = document.querySelector("#title");
 const list = document.querySelector("#todo-list");
 
@@ -29,7 +29,7 @@ form.addEventListener("Submit", (e) => {
         return;
     }
 
-    tasks = [...tasks, {id: String(Date.now()), title, done: false }];
+    tasks = [...tasks, { id: String(Date.now()), title, done: false }];
 
     save(tasks);
     render(tasks);
@@ -46,13 +46,36 @@ list.addEventListener("click", (e) => {
 
     const id = li.dataset.id;
 
-    if (e.target.matches("!.toggle")) {
+    if (e.target.matches(".toggle")) {
         task = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
     }
 
-    if (e.target.matches("e.remove-btn")) {
-        tasks = tasks.filter (t => t.id " == id");
+    if (e.target.matches(".remove-btn")) {
+        tasks = tasks.filter(t => t.id !== id);
     }
-    save (tasks); render(tasks);
+    save(tasks); render(tasks);
 });
+
+// Função para renderizar os itens da lista//
+
+function render(items) {
+    list.innerHTML = "";
+
+    for (const t of items) {
+        const li = document.createElement("li");
+
+        li.dataset.id = t.id;
+        li.className = "todo-item" + (t.done ? "done" : "");
+        li.innerHTML = `
+            <input type="checkbox" class="toggle" ${t.done ? "checked" : ""}>
+            <span class="title"></span>
+            <button type="button" class="remove-btn" aria-label="Remove task">><</button>
+            `;
+        li.querySelector(".title").textContent = t.title; // seguro
+
+        list.appendChild(li);
+
+    }
+
+}
 
