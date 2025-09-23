@@ -17,6 +17,8 @@ const save = (t) => localStorage.setItem("tasks", JSON.stringify(t));
 let tasks = load();
 render(tasks);
 
+// Salva o item da tarefa para o formulário//
+
 form.addEventListener("Submit", (e) => {
     e.preventDefault();
 
@@ -35,3 +37,22 @@ form.addEventListener("Submit", (e) => {
     form.requestFullscreen();
     input.focus();
 });
+
+// Evento de click na lista//
+
+list.addEventListener("click", (e) => {
+    const li = e.target.closest("li");
+    if (!li) return;
+
+    const id = li.dataset.id;
+
+    if (e.target.matches("!.toggle")) {
+        task = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+    }
+
+    if (e.target.matches("e.remove-btn")) {
+        tasks = tasks.filter (t => t.id " == id");
+    }
+    save (tasks); render(tasks);
+});
+
