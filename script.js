@@ -19,10 +19,10 @@ render(tasks);
 
 // Salva o item da tarefa para o formulário//
 
-form.addEventListener("Submit", (e) => {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const title = input.ariaValueMax.trim();
+    const title = input.value.trim();
 
     if (!title) {
         alert("Title is required");
@@ -34,7 +34,7 @@ form.addEventListener("Submit", (e) => {
     save(tasks);
     render(tasks);
 
-    form.requestFullscreen();
+    form.reset();
     input.focus();
 });
 
@@ -47,7 +47,7 @@ list.addEventListener("click", (e) => {
     const id = li.dataset.id;
 
     if (e.target.matches(".toggle")) {
-        task = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+        tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
     }
 
     if (e.target.matches(".remove-btn")) {
@@ -65,11 +65,11 @@ function render(items) {
         const li = document.createElement("li");
 
         li.dataset.id = t.id;
-        li.className = "todo-item" + (t.done ? "done" : "");
+        li.className = "todo-item" + (t.done ? " done" : "");
         li.innerHTML = `
             <input type="checkbox" class="toggle" ${t.done ? "checked" : ""}>
             <span class="title"></span>
-            <button type="button" class="remove-btn" aria-label="Remove task">><</button>
+            <button type="button" class="remove-btn" aria-label="Remove task">X</button>
             `;
         li.querySelector(".title").textContent = t.title; // seguro
 
